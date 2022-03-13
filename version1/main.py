@@ -1,7 +1,10 @@
 from json import dumps
 import requests.utils
 import websocket
+import requests
 
+
+# ws的各个函数对应的处理
 
 def on_message(ws, message):
     print('(get) ===> ', message)
@@ -11,11 +14,13 @@ def on_error(ws, error):
     print(error)
 
 
-def deal_message():
-    ws = websocket.WebSocketApp("ws://baidu.com/",
-                                cookie=cookie_str,
-                                on_message=on_message,
-                                on_error=on_error)
+def on_close(ws, close_status_code, close_msg):
+    if close_status_code or close_msg:
+        print('close_status_code:' + str(close_status_code))
+        print('close_msg' + str(close_msg))
+
+
+def on_open(ws):
     cmd = input('input your command:')
     body = {}
     for elem in ['sort', 'key', 'num', '_CID', 'lastMsg_MID', 'status', 'message']:
@@ -26,8 +31,17 @@ def deal_message():
 
     ws.send(json_data_send)  # 传输数据
     print(f"(send) ===> {json_data_send}")
-    ws.run_forever()
 
+
+def deal_message():
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp(url="wss://www.baidu.com/",
+                                cookie=cookie_str,
+                                on_message=on_message,
+                                on_error=on_error,
+                                on_close=on_close,
+                                on_open=on_open)
+    ws.run_forever()
 
 url_connect = 'https://baidu.com/'
 play_load = {'username': '$wu_jun', 'password': '$123456789'}
