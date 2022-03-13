@@ -21,6 +21,18 @@ def on_close(ws, close_status_code, close_msg):
 
 
 def on_open(ws):
+    print('Opened connection!')
+
+
+def deal_message():
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp(url='',
+                                cookie=cookie_str,
+                                on_message=on_message,
+                                on_error=on_error,
+                                on_close=on_close,
+                                on_open=on_open)
+    ws.run_forever()
     cmd = input('input your command:')
     body = {}
     for elem in ['sort', 'key', 'num', '_CID', 'lastMsg_MID', 'status', 'message']:
@@ -33,18 +45,8 @@ def on_open(ws):
     print(f"(send) ===> {json_data_send}")
 
 
-def deal_message():
-    websocket.enableTrace(True)
-    ws = websocket.WebSocketApp(url="wss://www.baidu.com/",
-                                cookie=cookie_str,
-                                on_message=on_message,
-                                on_error=on_error,
-                                on_close=on_close,
-                                on_open=on_open)
-    ws.run_forever()
-
-url_connect = 'https://baidu.com/'
-play_load = {'username': '$wu_jun', 'password': '$123456789'}
+url_connect = ''
+play_load = {'username': '', 'password': ''}
 headers = {}
 r = requests.post(url_connect, data=dumps(play_load), headers=headers)
 print('connecting to {}'.format(url_connect))
