@@ -7,8 +7,8 @@ import asyncio
 
 def deal_message(msg):
     msg_get = json.loads(msg)
-# TO BE DONE
-#    if msg_get['code'] ==
+    # TO BE DONE
+    #    if msg_get['code'] ==
     if 'contacts' in msg_get:
         print('联系人如下所示:')
         for contact in msg_get['contacts']:
@@ -28,7 +28,8 @@ async def response_message():
                 print('input {}:'.format(elem))
                 body[elem] = input()
             data_send = {'cmd': cmd, 'body': body}
-            await ws.send(data_send)
+            json_data_send = dumps(data_send)
+            await ws.send(json_data_send)
             message = await ws.recv()
             deal_message(message)
 
@@ -42,3 +43,4 @@ if r.status_code != 200:
     print('登录失败，原因：{}'.format(r.reason))
     exit()
 asyncio.get_event_loop().run_until_complete(response_message())
+# 将使用多线程重构
