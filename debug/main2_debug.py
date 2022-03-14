@@ -11,7 +11,7 @@ import sys
 def deal_message(json_data):
     data = loads(json_data)
     if data['type'] == 'push':
-        print('(get push from sever ===> )' + 'Event:', data['body']['event'] + ' _CID:', data['body']['_CID'])
+        print('(get push from sever) ===> ' + 'Event:', data['body']['event'] + ' _CID:', data['body']['_CID'])
     elif data['type'] == 'response':
         if data['body']['code'] != 0:
             print('(something wrong!) ===>' + data['body']['msg'])
@@ -21,7 +21,8 @@ def deal_message(json_data):
                 print('联系人:')
                 print(data['body']['contacts'])
             elif 'messages' in data['body']:
-                print('消息' + data['body']['messages'])
+                print('消息:')
+                print(data['body']['messages'])
             else:
                 print('success!')
 
@@ -41,11 +42,12 @@ def on_open(ws):
             try:
                 ws.send(json_data_send)
             except:
-                sys.exit(0)
-            finally:
                 print('connection is already closed.')
+                sys.exit(0)
 
+            print('')
             print('(send) ===> ', json_data_send)
+            print('')
 
     threading.Thread(target=run).start()
 
@@ -57,8 +59,8 @@ def on_error(ws, error):
 def on_message(ws, message):
     def run(*args):
         deal_message(message)
-        print(message)
         print("Message received...")
+        print('')
 
     threading.Thread(target=run).start()
 
@@ -94,7 +96,7 @@ for key in cookies_dic:
     cookie_str += key + '=' + cookies_dic[key] + ';'
 cookie_str = cookie_str.strip(';')
 '''
-wsapp = websocket.WebSocketApp("ws://localhost:8765",
-                               on_open=on_open, on_message=on_message,
-                               on_close=on_close, on_error=on_error)
-wsapp.run_forever()
+ws_app = websocket.WebSocketApp("ws://localhost:8765",
+                                on_open=on_open, on_message=on_message,
+                                on_close=on_close, on_error=on_error)
+ws_app.run_forever()
