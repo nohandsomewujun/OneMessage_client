@@ -8,6 +8,10 @@ import sys
 
 
 # TO BE DONE
+# create gui?
+
+
+
 def deal_message(json_data):
     data = loads(json_data)
     if data['type'] == 'push':
