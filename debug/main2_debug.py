@@ -11,11 +11,10 @@ import sys
 # create gui?
 
 
-
 def deal_message(json_data):
     data = loads(json_data)
     if data['type'] == 'push':
-        print('(get push from sever) ===> ' + 'Event:', data['body']['event'] + ' _CID:', data['body']['_CID'])
+        print('(get push from sever) ===> ' + 'Event:', data['body']['event'] + ' ' + ' _CID:', data['body']['_CID'])
     elif data['type'] == 'response':
         if data['body']['code'] != 0:
             print('(something wrong!) ===>' + data['body']['msg'])
