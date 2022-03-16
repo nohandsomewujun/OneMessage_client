@@ -6,6 +6,7 @@ import requests
 from requests import utils
 from json import loads
 import os
+from requests_toolbelt import MultipartEncoder
 
 
 def deal_message(json_data):
@@ -78,10 +79,11 @@ def on_close(ws, close_status_code, close_msg):
 
 
 
-url_connect = 'https://baidu.com/'
-play_load = {'username': '', 'password': ''}
-headers = {}
-r = requests.post(url_connect, data=dumps(play_load), headers=headers)
+url_connect = 'http://192.168.43.219:8080/login'
+play_load = {'username': 'huyufan', 'password': 'hu'}
+play_load_from_data = MultipartEncoder(play_load)
+headers = {'Content-Type': play_load_from_data.content_type}
+r = requests.post(url_connect, data=play_load_from_data, headers=headers)
 print('connecting to {}'.format(url_connect))
 if r.status_code != 200:
     print('登录失败，原因：{}'.format(r.reason))
@@ -94,7 +96,7 @@ cookie_str = ''
 for key in cookies_dic:
     cookie_str += key + '=' + cookies_dic[key] + ';'
 cookie_str = cookie_str.strip(';')
-ws_app = websocket.WebSocketApp("ws://localhost:8765",
+ws_app = websocket.WebSocketApp("ws://192.168.43.219:8080/app",
                                 on_open=on_open, on_message=on_message,
                                 on_close=on_close, on_error=on_error, cookie=cookie_str)
 ws_app.run_forever()

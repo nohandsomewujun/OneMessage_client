@@ -98,7 +98,7 @@ for key in cookies_dic:
     cookie_str += key + '=' + cookies_dic[key] + ';'
 cookie_str = cookie_str.strip(';')
 '''
-ws_app = websocket.WebSocketApp("ws://localhost:8765",
+ws_app = websocket.WebSocketApp("ws://192.168.43.219:8080/app",
                                 on_open=on_open, on_message=on_message,
                                 on_close=on_close, on_error=on_error)
 ws_app.run_forever()
