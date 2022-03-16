@@ -5,6 +5,7 @@ from json import dumps
 import requests
 from requests import utils
 from json import loads
+import os
 
 
 def deal_message(json_data):
@@ -69,11 +70,12 @@ def on_close(ws, close_status_code, close_msg):
     if close_status_code or close_msg:
         print('close status code:', close_status_code)
         print('close msg:', close_msg)
-    print(">>>>>>CLOSED")
     try:
-        sys.exit(0)
-    except SystemExit:
-        print('connection close')
+        print(">>>>>>CLOSED")
+        os._exit(0)
+    except:
+        pass
+
 
 
 url_connect = 'https://baidu.com/'
